@@ -97,8 +97,10 @@ export const CompanionForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       if (initialData) {
+        //update
         await axios.patch(`/api/companion/${initialData.id}`, values);
       } else {
+        //create
         await axios.post("/api/companion", values);
       }
 
