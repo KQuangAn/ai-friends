@@ -15,7 +15,7 @@ const CompanionPage = async ({ params }: CompanionPageProps) => {
 
   const categories = await prismadb.category.findMany();
 
-  return <;
+  return <div>fwef</div>;
 };
 
 export default CompanionPage;
