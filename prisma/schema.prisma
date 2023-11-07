@@ -65,3 +65,37 @@ model UserSubscription {
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
+
+model ArticleCategory {
+  id      String    @id @default(uuid())
+  name    String
+  Article Article[]
+}
+
+model ArticleCountry {
+  id      String    @id @default(uuid())
+  name    String
+  Article Article[]
+}
+
+model Article {
+  article_id       String            @id @default(uuid())
+  link             String
+  title            String            @db.Text
+  keywords         String            @db.Text
+  creator          String
+  description      String
+  content          String            @db.Text
+  pubDate          DateTime
+  country          String[]
+  category         ArticleCategory[]
+  language         String
+  updatedAt        DateTime          @updatedAt
+  ArticleCountry   ArticleCountry?   @relation(fields: [articleCountryId], references: [id])
+  articleCountryId String?
+
+  @@index([article_id])
+  @@fulltext([title])
+}
+
+//todo run npx generate prisma
