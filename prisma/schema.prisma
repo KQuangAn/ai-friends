@@ -67,11 +67,11 @@ model UserSubscription {
 }
 
 model User {
-  id       String   @id
-  email    String   @unique
-  name     String?
-  role     Role     @default(user)
-  Articles Article?
+  id      String    @id
+  email   String    @unique
+  name    String?
+  role    Role      @default(user)
+  Article Article[]
 }
 
 model ArticleCategory {
@@ -87,22 +87,23 @@ model ArticleCountry {
 }
 
 model Article {
-  article_id       String            @id @default(uuid())
+  article_id       String          @id @default(uuid())
   link             String
-  title            String            @db.Text
-  keywords         String            @db.Text
+  title            String          @db.Text
+  keywords         String          @db.Text
   creator          String
   description      String
-  content          String            @db.Text
+  content          String          @db.Text
   pubDate          DateTime
-  country          String[]
-  category         ArticleCategory[]
+  country          String
+  category         ArticleCategory @relation(fields: [categoryId], references: [id])
+  categoryId       String
   language         String
-  updatedAt        DateTime          @updatedAt
-  ArticleCountry   ArticleCountry?   @relation(fields: [articleCountryId], references: [id])
+  updatedAt        DateTime        @updatedAt
+  ArticleCountry   ArticleCountry? @relation(fields: [articleCountryId], references: [id])
   articleCountryId String?
-  User             User?             @relation(fields: [userId], references: [id])
-  userId           String?
+  author           User            @relation(fields: [author_id], references: [id])
+  author_id        String
 
   @@index([article_id])
   @@fulltext([title])

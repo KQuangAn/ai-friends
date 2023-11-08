@@ -4,17 +4,23 @@ const db = new PrismaClient();
 
 async function main() {
   try {
-    await db.category.createMany({
+    await db.articleCategory.createMany({
       data: [
-        { name: 'Famous People' },
-        { name: 'Movies & TV' },
-        { name: 'Musicians' },
-        { name: 'Games' },
-        { name: 'Animals' },
-        { name: 'Philosophy' },
-        { name: 'Scientists' },
+        { name: 'top' },
+        { name: 'sports' }, 
+        { name: 'politics' },
+        { name: 'science' },
+        { name: 'business' },
+        { name: 'food' },
+        { name: 'world' },
+        { name: 'tourism' },
+        { name: 'entertainment' },
+        { name: 'environment' },
+        { name: 'technology' },
+        { name: 'health' },
       ],
     });
+
   } catch (error) {
     console.error('Error seeding default categories:', error);
   } finally {
