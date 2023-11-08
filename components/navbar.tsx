@@ -23,7 +23,7 @@ const Navbar = () => {
               font.className
             )}
           >
-            ai-friends
+            NEWS
           </h1>
         </Link>
       </div>

@@ -66,6 +66,14 @@ model UserSubscription {
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
 }
 
+model User {
+  id       String   @id
+  email    String   @unique
+  name     String?
+  role     Role     @default(user)
+  Articles Article?
+}
+
 model ArticleCategory {
   id      String    @id @default(uuid())
   name    String
@@ -93,6 +101,8 @@ model Article {
   updatedAt        DateTime          @updatedAt
   ArticleCountry   ArticleCountry?   @relation(fields: [articleCountryId], references: [id])
   articleCountryId String?
+  User             User?             @relation(fields: [userId], references: [id])
+  userId           String?
 
   @@index([article_id])
   @@fulltext([title])
