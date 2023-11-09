@@ -1,8 +1,10 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { Companion } from "@prisma/client";
 import { MessagesSquare } from "lucide-react";
-
+import { useIntersection } from "@mantine/hooks";
 import {
   Card,
   CardContent,
@@ -11,13 +13,20 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { News } from "./types/news";
-
+import { useRef } from "react";
 interface NewsProps {
   data: News[];
   currentDateTime: Date;
 }
 
 export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
+  const lastPostRef = useRef<HTMLElement>;
+
+  const { ref, entry } = useIntersection({
+    root: lastPostRef.current,
+    threshold: 1,
+  });
+
   if (data.length === 0) {
     return (
       <div className="pt-10 flex flex-col items-center justify-center space-y-3">
@@ -36,7 +45,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
 
         //time diff in minutes
         const timeDifference = Math.floor(
-          (currentDateTime - pubDate) / (1000 * 60)
+          (+currentDateTime - +pubDate) / (1000 * 60)
         );
 
         const isMoreThanHour = timeDifference > 60;

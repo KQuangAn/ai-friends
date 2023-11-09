@@ -1,13 +1,15 @@
 "use server";
 
 import { News } from "@/components/types/news";
+import { Category, PrismaPromise } from "@prisma/client";
 import axios from "axios";
+import prismadb from "@/lib/prismadb";
 
 export async function getNewsData(
   searchParams?: string,
-  category?: string
+  category?: string,
+  nextPage?: string
 ): Promise<News[]> {
-  "use server";
   try {
     const baseUrl = "https://newsdata.io/api/1/news";
 
@@ -19,6 +21,10 @@ export async function getNewsData(
 
     if (category) {
       queryParams.push(`category=${category}`);
+    }
+
+    if (nextPage) {
+      queryParams.push(`page=${nextPage}`);
     }
 
     const headers = {
@@ -34,6 +40,18 @@ export async function getNewsData(
     const res = await axios.get(finalUrl, { headers });
 
     return res?.data.results;
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
+}
+
+export async function getCategory(): PrismaPromise<Category[]> {
+  "use server";
+  try {
+    const categories = await prismadb.articleCategory.findMany();
+
+    return categories;
   } catch (error) {
     console.log(error);
   }

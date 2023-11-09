@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Send } from "lucide-react";
 import { ArticleCategory, Article } from "@prisma/client";
-
+import Tiptap from "@/components/tiptap";
 import {
   Form,
   FormControl,
@@ -159,6 +159,7 @@ export const ArticleForm = ({ categories, initialData }: ArticleFormProps) => {
                       placeholder="CEO & Founder of Tesla, SpaceX"
                       {...field}
                     />
+                    <Tiptap onChange={field.onChange} />
                   </FormControl>
                   <FormDescription>
                     Short description of your article
