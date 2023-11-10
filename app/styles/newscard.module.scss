@@ -1,4 +1,5 @@
-@import '../app/globals.scss'
+@import "mixins";
+@import "variables.module.scss";
 
 .cardContainer {
     display:grid;
@@ -8,13 +9,13 @@
     transition: all;
     border-width:0px;
     @include tablet() {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
     .card{
         display:flex;
         flex-direction: column;
         justify-content: center;
-        background-color: $BLACK/10;
+        background-color: $BLACK;
         border-radius: 0.75rem;
         cursor: pointer;
         

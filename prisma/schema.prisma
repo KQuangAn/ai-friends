@@ -103,10 +103,12 @@ model Article {
   ArticleCountry   ArticleCountry? @relation(fields: [articleCountryId], references: [id])
   articleCountryId String?
   author           User            @relation(fields: [author_id], references: [id])
-  author_id        String
+  author_id        String          @unique
 
-  @@index([article_id])
+  @@index([description])
   @@fulltext([title])
 }
 
-//todo run npx generate prisma
+//todo run npx prisma generate 
+//npx prisma db push 
+//npx prisma studio

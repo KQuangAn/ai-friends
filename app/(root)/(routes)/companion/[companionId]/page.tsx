@@ -1,13 +1,13 @@
 import prismadb from "@/lib/prismadb";
 import { CompanionForm } from "./components/companion-form";
 
-interface CompanionPageProps {
+interface CompanionIdPageProps {
   params: {
     companionId: string;
   };
 }
 
-const CompanionPage = async ({ params }: CompanionPageProps) => {
+const CompanionIdPage = async ({ params }: CompanionIdPageProps) => {
   const companion = await prismadb.companion.findUnique({
     where: {
       id: params.companionId,
@@ -19,4 +19,4 @@ const CompanionPage = async ({ params }: CompanionPageProps) => {
   return <CompanionForm initialData={companion} categories={categories} />;
 };
 
-export default CompanionPage;
+export default CompanionIdPage;

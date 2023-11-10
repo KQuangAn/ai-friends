@@ -8,16 +8,21 @@ import { cn } from "@/lib/utils";
 
 interface CategoriesProps {
   data: Category[];
+  returnName?: boolean;
 }
 
-const Categories = ({ data }: CategoriesProps) => {
+const Categories = ({ data, returnName }: CategoriesProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const categoryId = searchParams.get("categoryId");
 
-  const onClick = (id: string | undefined) => {
-    const query = { categoryId: id };
+  const categoryName = searchParams.get("category");
+
+  const onClick = (item: Category | undefined) => {
+    const query = returnName
+      ? { category: item?.name }
+      : { categoryId: item?.id };
 
     const url = qs.stringifyUrl(
       {
@@ -50,14 +55,15 @@ const Categories = ({ data }: CategoriesProps) => {
           hover:opacity-75 
           transition
         `,
-          !categoryId ? "bg-primary/25" : "bg-primary/10"
+          !categoryId ? "bg-primary/25" : "bg-primary/10",
+          !categoryName ? "bg-primary/25" : "bg-primary/10"
         )}
       >
         Newest
       </button>
       {data.map((item) => (
         <button
-          onClick={() => onClick(item.id)}
+          onClick={() => onClick(item)}
           className={cn(
             `
             flex 
@@ -74,7 +80,8 @@ const Categories = ({ data }: CategoriesProps) => {
             hover:opacity-75 
             transition
           `,
-            item.id === categoryId ? "bg-primary/25" : "bg-primary/10"
+            item.id === categoryId ? "bg-primary/25" : "bg-primary/10",
+            item.name === categoryName ? "bg-primary/25" : "bg-primary/10"
           )}
           key={item.id}
         >

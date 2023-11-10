@@ -39,7 +39,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pb-10 m-2">
+    <div className="grid grid-cols-1 md:grid-cols-2  xl:grid-cols-3 gap-2 pb-10 m-2">
       {data.map((item) => {
         const pubDate = new Date(item.pubDate);
 
@@ -56,7 +56,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
             className="
            flex flex-col justify-center bg-primary/10 rounded-xl cursor-pointer hover:opacity-75 transition border-0"
           >
-            <Link href={`${item.link}`}>
+            <Link href={`/news/${item.article_id}`}>
               <CardHeader>
                 <div className="relative w-full h-56">
                   {item.image_url ? (
@@ -78,7 +78,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
                 </div>
               </CardHeader>
               <CardTitle>
-                <h2 className="text-md px-5 font-bold w-full line-clamp-2 mb-5">
+                <h2 className="text-md px-5 font-bold w-full line-clamp-2 mb-5 h-12">
                   {item.title}
                 </h2>
               </CardTitle>
@@ -97,6 +97,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
                         timeDifference === 1 ? "minute" : "minutes"
                       } ago`}
                 </p>
+                <Link href={`${item.link}`} />
               </CardFooter>
             </Link>
           </Card>

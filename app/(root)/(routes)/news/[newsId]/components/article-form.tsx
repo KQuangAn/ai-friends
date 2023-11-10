@@ -159,7 +159,7 @@ export const ArticleForm = ({ categories, initialData }: ArticleFormProps) => {
                       placeholder="CEO & Founder of Tesla, SpaceX"
                       {...field}
                     />
-                    <Tiptap onChange={field.onChange} />
+                    <Tiptap onChange={field.onChange} description={"des"} />
                   </FormControl>
                   <FormDescription>
                     Short description of your article
