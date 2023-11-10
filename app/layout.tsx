@@ -4,6 +4,8 @@ import "./globals.scss";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import { GlobalContextProvider } from "./Context/store";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,7 +23,7 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={cn("bg-secondary", inter.className)}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
+            <GlobalContextProvider>{children}</GlobalContextProvider>
           </ThemeProvider>
         </body>
       </html>

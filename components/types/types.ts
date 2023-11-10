@@ -15,3 +15,12 @@ export type News = {
   category?: string[]; 
   language: string;
 };
+
+
+export type NewsResponse = {
+  status: string,
+  totalResults: number,
+  results: News[],
+  nextPage: string,
+};
+

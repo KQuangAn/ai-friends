@@ -1,29 +1,15 @@
-import prismadb from "@/lib/prismadb";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { Category } from "@prisma/client";
-import { ArticleForm } from "./components/article-form";
+"use client";
+import { useGlobalContext } from "@/app/Context/store";
+import { Article, Category } from "@prisma/client";
 
-interface NewsIdPageProps {
-  params: {
-    articleId: string;
-  };
+interface NewsDetailPageProps {
+  articleId: string;
 }
 
-const NewsIdPage = async ({ params }: NewsIdPageProps) => {
-  //   const { data, fetchNextPage, isFetching } = useInfiniteQuery({
-  //     "news",
-  //     ({ pageParam = undefined }) =>
-  //       getNewsData(searchParams.name, searchParams.categoryId, pageParam),
+const NewsDetailPage = (articleId: NewsDetailPageProps) => {
+  const { news } = useGlobalContext();
 
-  //     {
-  //       getNextPageParam: (lastPage, allPages) => lastPage.data.nextPage,
-  //     }
-  // });
-
-  const article = null;
-  const categories = await prismadb.articleCategory.findMany();
-
-  return <ArticleForm initialData={article} categories={categories} />;
+  return <div>{news.title}</div>;
 };
 
-export default NewsIdPage;
+export default NewsDetailPage;

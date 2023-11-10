@@ -1,6 +1,6 @@
 "use server";
 
-import { News } from "@/components/types/news";
+import { NewsResponse } from "@/components/types/types";
 import { Category, PrismaPromise } from "@prisma/client";
 import axios from "axios";
 import prismadb from "@/lib/prismadb";
@@ -9,7 +9,7 @@ export async function getNewsData(
   searchParams?: string,
   category?: string,
   nextPage?: string
-): Promise<News[]> {
+): Promise<NewsResponse> {
   try {
     const baseUrl = "https://newsdata.io/api/1/news";
 
@@ -39,7 +39,7 @@ export async function getNewsData(
 
     const res = await axios.get(finalUrl, { headers });
 
-    return res?.data.results;
+    return res?.data;
   } catch (error) {
     console.log(error);
   }
