@@ -51,7 +51,7 @@ const formSchema = z.object({
 
 interface ArticleFormProps {
   categories: ArticleCategory[];
-  initialData: Article | null;
+  initialData: any | null;
 }
 
 export const ArticleForm = ({ categories, initialData }: ArticleFormProps) => {

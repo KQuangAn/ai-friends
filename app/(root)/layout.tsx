@@ -1,9 +1,11 @@
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+import { getLanguage } from "../actions/language";
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
+  const data = await getLanguage();
   return (
     <div className="h-full">
-      <Navbar />
+      <Navbar data={data} />
       <div className="hidden md:flex mt-16 w-20 flex-col fixed inset-y-0">
         <Sidebar />
       </div>

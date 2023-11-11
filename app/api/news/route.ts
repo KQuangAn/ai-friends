@@ -1,7 +1,7 @@
 import { auth, currentUser } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 import axios from "axios";
-export async function GET(req: Request) {
+export async function GET_ARTICLE(req: Request) {
 
   try {
     const body = await req.json();
@@ -25,3 +25,5 @@ export async function GET(req: Request) {
     return new NextResponse("Internal Error", { status: 500 });
   }
 };
+
+

@@ -13,12 +13,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { News } from "./types/types";
+import { useGlobalContext } from "@/app/Context/store";
 
 interface NewsDetailProps {
-  data: News;
+  props: {
+    articleId: string;
+  };
 }
 
-export function NewsDetail({ data }: NewsDetailProps) {
+export function NewsDetail({ props }: NewsDetailProps) {
+  const { news } = useGlobalContext();
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -35,7 +40,7 @@ export function NewsDetail({ data }: NewsDetailProps) {
           ProfileEdit Profile Edit ProfileEdit ProfileEdit ProfileEdit Profile
           Edit Edit ProfileEdit ProfileEdit ProfileEdit Profile Edit ProfileEdit
           ProfileEdit ProfileEdit Profile Edit ProfileEdit ProfileEdit
-          ProfileEdit Profile Edit Edit Profile
+          ProfileEdit Profile Edit Edit Profile{news?.description}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

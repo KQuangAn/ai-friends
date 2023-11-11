@@ -81,7 +81,7 @@ model ArticleCategory {
 }
 
 model ArticleCountry {
-  id      String    @id @default(uuid())
+  id      String    @id 
   name    String
   Article Article[]
 }

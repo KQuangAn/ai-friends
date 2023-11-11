@@ -23,7 +23,9 @@ const RootPage = async ({ searchParams }: RootPageProps) => {
     searchParams.category,
     first.nextPage
   );
-  const news: News[] = [...first?.results, ...second?.results];
+
+  const news: News[] = [];
+
   const categories = await prismadb.articleCategory.findMany();
   return (
     <div className="h-full p-4 space-y-2">

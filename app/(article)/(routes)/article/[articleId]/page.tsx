@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { auth, redirectToSignIn } from "@clerk/nextjs";
 
 import prismadb from "@/lib/prismadb";
+import { ArticleForm } from "./components/article-form";
 
 interface ArticleIdPageProps {
   params: {
@@ -16,32 +17,17 @@ const ArticleIdPage = async ({ params }: ArticleIdPageProps) => {
     return redirectToSignIn();
   }
 
-  const companion = await prismadb.companion.findUnique({
+  const article = await prismadb.article.findMany({
     where: {
-      id: params.chatId,
+      author_id: userId,
     },
-    include: {
-      messages: {
-        orderBy: {
-          createdAt: "asc",
-        },
-        where: {
-          userId,
-        },
-      },
-      _count: {
-        select: {
-          messages: true,
-        },
-      },
+    orderBy: {
+      pubDate: "desc",
     },
   });
+  const categories = await prismadb.articleCategory.findMany();
 
-  if (!companion) {
-    return redirect("/");
-  }
-
-  return <ArticleClient companion={companion} />;
+  return <ArticleForm initialData={article} categories={categories} />;
 };
 
 export default ArticleIdPage;

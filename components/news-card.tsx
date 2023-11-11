@@ -50,7 +50,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
 
   return (
     <div className={styles.cardContainer}>
-      {data.map((item) => {
+      {data?.map((item) => {
         const pubDate = new Date(item.pubDate);
 
         //time diff in minutes
@@ -62,47 +62,48 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
 
         return (
           <Card key={item.article_id} className={styles.card}>
-            <CardHeader>
-              <div className={styles.card__imageContainer}>
-                {item.image_url ? (
-                  <Image
-                    src={item.image_url}
-                    fill
-                    unoptimized
-                    className={styles.card__imageContainer__image}
-                    alt="News image"
-                  />
-                ) : (
-                  <Image
-                    src="/placeholder.svg"
-                    fill
-                    className={styles.card__imageContainer__image}
-                    alt="News image"
-                  />
-                )}
-              </div>
-            </CardHeader>
-            <CardTitle>
-              <h2 className={styles.card__title}>{item.title}</h2>
-            </CardTitle>
-            <CardContent>
-              <div className={styles.card__content}>{item.description}</div>
-            </CardContent>
-            <CardFooter className={styles.card__footer}>
-              <div className={styles.card__footer__time}>
-                {isMoreThanHour
-                  ? `${Math.floor(timeDifference / 60)} ${
-                      timeDifference < 120 ? "hour" : "hours"
-                    } ago`
-                  : `${timeDifference} ${
-                      timeDifference === 1 ? "minute" : "minutes"
-                    } ago`}
-              </div>
-              <Link
-                href={`news/${item.article_id}`}
-                onClick={() => setNews(item)}
-              />
-            </CardFooter>
+            <Link
+              href={`/news/${item.article_id}`}
+              onClick={() => setNews(item)}
+            >
+              <CardHeader>
+                <div className={styles.card__imageContainer}>
+                  {item.image_url ? (
+                    <Image
+                      src={item.image_url}
+                      fill
+                      unoptimized
+                      className={styles.card__imageContainer__image}
+                      alt="News image"
+                    />
+                  ) : (
+                    <Image
+                      src="/placeholder.svg"
+                      fill
+                      className={styles.card__imageContainer__image}
+                      alt="News image"
+                    />
+                  )}
+                </div>
+              </CardHeader>
+              <CardTitle>
+                <h2 className={styles.card__title}>{item.title}</h2>
+              </CardTitle>
+              <CardContent>
+                <div className={styles.card__content}>{item.description}</div>
+              </CardContent>
+              <CardFooter className={styles.card__footer}>
+                <div className={styles.card__footer__time}>
+                  {isMoreThanHour
+                    ? `${Math.floor(timeDifference / 60)} ${
+                        timeDifference < 120 ? "hour" : "hours"
+                      } ago`
+                    : `${timeDifference} ${
+                        timeDifference === 1 ? "minute" : "minutes"
+                      } ago`}
+                </div>
+              </CardFooter>
+            </Link>
           </Card>
         );
       })}

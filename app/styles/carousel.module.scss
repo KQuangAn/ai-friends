@@ -1,0 +1,11 @@
+
+.embla{
+    &__container {
+            display: flex;
+        }
+
+    &__slide {
+            flex: 0 0 50%;
+            min-width: 0;
+    }
+}
