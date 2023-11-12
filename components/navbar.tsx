@@ -9,19 +9,22 @@ import { ModeToggle } from "./mode-toggle";
 import { useRouter, useSearchParams } from "next/navigation";
 import qs from "query-string";
 
-import MobileSidebar from "./mobile-sidebar";
+import { MobileSidebar } from "./mobile-sidebar";
 import { ComboBoxData, Combobox } from "./combo-box";
 import axios from "axios";
 import { getLanguage } from "@/app/actions/language";
+import { useGlobalContext } from "@/app/Context/store";
 const font = Poppins({
   weight: "600",
   subsets: ["latin"],
 });
 interface NavbarProps {
   data: ComboBoxData[];
+  isPro: boolean;
 }
 
-const Navbar = ({ data }: NavbarProps) => {
+const Navbar = ({ data, isPro }: NavbarProps) => {
+  const { proModalIsOpen, setProModalIsOpen } = useGlobalContext();
   const router = useRouter();
 
   const onClick = (item: string | undefined) => {
@@ -41,7 +44,7 @@ const Navbar = ({ data }: NavbarProps) => {
   return (
     <div className="fixed w-full h-16 z-50 flex justify-between items-center py-2 px-4 border-b border-primary/10 bg-secondary">
       <div className="flex items-center">
-        <MobileSidebar />
+        <MobileSidebar isPro={isPro} />
         <Link href="/">
           <h1
             className={cn(
@@ -54,10 +57,16 @@ const Navbar = ({ data }: NavbarProps) => {
         </Link>
       </div>
       <div className="flex items-center gap-x-3">
-        <Button variant="premium" size="sm">
-          Upgrade
-          <Sparkles className="h-4 w-4 fill-white text-white ml-2" />
-        </Button>
+        {!isPro && (
+          <Button
+            onClick={() => setProModalIsOpen(true)}
+            size="sm"
+            variant="premium"
+          >
+            Upgrade
+            <Sparkles className="h-4 w-4 fill-white text-white ml-2" />
+          </Button>
+        )}
         <Combobox data={data} placeholder="Select language" />
         <ModeToggle />
         <UserButton />

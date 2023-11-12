@@ -12,23 +12,37 @@ import {
 interface ContextProps {
   data: News[];
   setData: Dispatch<SetStateAction<News[]>>;
-  news: News | undefined;
-  setNews: Dispatch<SetStateAction<News | undefined>>;
+  news: News;
+  setNews: Dispatch<SetStateAction<News>>;
+  proModalIsOpen: boolean;
+  setProModalIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const GlobalContext = createContext<ContextProps>({
   data: [],
-  setData: (): News[] => [],
+  setData: (): void => {},
   news: {} as News,
-  setNews: (): News => {},
+  setNews: (): void => {},
+  proModalIsOpen: false,
+  setProModalIsOpen: (): void => {},
 });
 
 export const GlobalContextProvider = ({ children }) => {
   const [data, setData] = useState<[] | News[]>([]);
-  const [news, setNews] = useState<undefined | News>();
+  const [news, setNews] = useState<News>({} as News);
+  const [proModalIsOpen, setProModalIsOpen] = useState<boolean>(false);
 
   return (
-    <GlobalContext.Provider value={{ data, setData, news, setNews }}>
+    <GlobalContext.Provider
+      value={{
+        data,
+        setData,
+        news,
+        setNews,
+        proModalIsOpen,
+        setProModalIsOpen,
+      }}
+    >
       {children}
     </GlobalContext.Provider>
   );

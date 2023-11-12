@@ -2,8 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Companion } from "@prisma/client";
-import { MessagesSquare } from "lucide-react";
 import { useIntersection } from "@mantine/hooks";
 import {
   Card,
@@ -13,8 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { News } from "./types/types";
-import { useRef } from "react";
-import { FormItem } from "./ui/form";
+import { useRef, useEffect, useState } from "react";
 import styles from "../app/styles/newscard.module.scss";
 import { useGlobalContext } from "@/app/Context/store";
 interface NewsProps {
@@ -24,6 +21,7 @@ interface NewsProps {
 
 export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
   const { news, setNews } = useGlobalContext();
+  const [isMounted, setIsMounted] = useState(false);
 
   const lastPostRef = useRef<HTMLElement>;
 
@@ -32,17 +30,14 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
     threshold: 1,
   });
 
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   if (data.length === 0) {
     return (
       <div className={styles.emptyContainer}>
-        <div className={styles.emptyContainer__imageContainer}>
-          <Image
-            fill
-            className={styles.emptyContainer__imageContainer__image}
-            src="/empty.png"
-            alt="Empty"
-          />
-        </div>
+        <div className={styles.emptyContainer__imageContainer}></div>
         <p className="text-sm text-muted-foreground">No News found.</p>
       </div>
     );
@@ -87,7 +82,7 @@ export const NewsCard = ({ data, currentDateTime }: NewsProps) => {
                 </div>
               </CardHeader>
               <CardTitle>
-                <h2 className={styles.card__title}>{item.title}</h2>
+                <div className={styles.card__title}>{item.title}</div>
               </CardTitle>
               <CardContent>
                 <div className={styles.card__content}>{item.description}</div>

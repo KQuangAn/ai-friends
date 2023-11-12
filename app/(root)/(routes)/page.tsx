@@ -17,14 +17,26 @@ interface RootPageProps {
 
 const RootPage = async ({ searchParams }: RootPageProps) => {
   const date = new Date();
-  const first = await getNewsData(searchParams.name, searchParams.category);
+  let news: News[] = [];
+  const first = await getNewsData(
+    searchParams.name,
+    searchParams.category,
+    searchParams.language
+  );
   const second = await getNewsData(
     searchParams.name,
     searchParams.category,
-    first.nextPage
+    searchParams.language,
+    first?.nextPage
   );
 
-  const news: News[] = [];
+  if (first?.data?.status != "error" && second?.data?.status != "error") {
+    news = [...first?.results, ...second?.results];
+  } else if (first?.data?.status != "error") {
+    news = [...first?.results];
+  } else {
+    news = [];
+  }
 
   const categories = await prismadb.articleCategory.findMany();
   return (

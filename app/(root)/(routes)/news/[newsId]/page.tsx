@@ -32,17 +32,21 @@ const NewsDetailPage = (params: NewsDetailPageProps) => {
       <a href={news?.link}>Link to original post</a>
 
       <div>{news?.pubDate.toString()}</div>
-      <div className="relative w-60 h-60">
-        <Image
-          src={news?.image_url}
-          fill
-          className="rounded-xl object-cover"
-          alt="Character"
-        />
+      <div className="relative w-full h-full">
+        {news?.image_url ? (
+          <Image
+            src={news?.image_url}
+            fill
+            className="rounded-xl object-cover"
+            alt="Character"
+          />
+        ) : (
+          <Image fill className="grayscale" src="/empty.jpg" alt="Empty" />
+        )}
       </div>
       <div>{news?.content}</div>
       <div>{news?.description}</div>
-      <div>{news?.author}</div>
+      <div>{news?.creator}</div>
     </div>
   );
 };

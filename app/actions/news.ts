@@ -8,8 +8,10 @@ import prismadb from "@/lib/prismadb";
 export async function getNewsData(
   searchParams?: string,
   category?: string,
+  language?:string,
   nextPage?: string
-): Promise<NewsResponse> {
+): Promise<NewsResponse| []> {
+
   try {
     const baseUrl = "https://newsdata.io/api/1/news";
 
@@ -21,6 +23,9 @@ export async function getNewsData(
 
     if (category) {
       queryParams.push(`category=${category}`);
+    }
+    if (language) {
+      queryParams.push(`language=${language}`);
     }
 
     if (nextPage) {
@@ -34,26 +39,35 @@ export async function getNewsData(
     const finalUrl =
       baseUrl +
       (queryParams.length > 0
-        ? `?${queryParams.join("&")}&language=en`
+        ? `?${queryParams.join("&")}`
         : "?language=en");
 
     const res = await axios.get(finalUrl, { headers });
 
     return res?.data;
   } catch (error) {
-    console.log(error);
+    if (error.response) {
+      // Axios error with response received
+      const statusCode = error.response.status;
+      const data = error.response.data;
+      console.error(`HTTP error with status code ${statusCode}:`, data);
+      return { error: `HTTP error with status code ${statusCode}`, data };
+    } else {
+      // Network error, no response received
+      console.error("Network error:", error.message);
+      return [];
+    }
   }
-  return [];
 }
 
-export async function getCategory(): PrismaPromise<Category[]> {
-  "use server";
-  try {
-    const categories = await prismadb.articleCategory.findMany();
+// export async function getCategory(): PrismaPromise<Category[]> {
+//   "use server";
+//   try {
+//     const categories = await prismadb.articleCategory.findMany();
 
-    return categories;
-  } catch (error) {
-    console.log(error);
-  }
-  return [];
-}
+//     return categories;
+//   } catch (error) {
+//     console.log(error);
+//   }
+//   return [];
+// }
