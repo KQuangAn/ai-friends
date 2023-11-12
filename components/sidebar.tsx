@@ -2,8 +2,14 @@
 import { cn } from "@/lib/utils";
 import { Home, Plus, Settings, MessageCircle } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useGlobalContext } from "@/app/Context/store";
+interface SidebarProps {
+  isPro: boolean;
+}
 
-const Sidebar = () => {
+export const Sidebar = ({ isPro }: SidebarProps) => {
+  const { proModalIsOpen, setProModalIsOpen } = useGlobalContext();
+
   const pathname = usePathname();
   const router = useRouter();
   const routes = [
@@ -17,13 +23,13 @@ const Sidebar = () => {
       icon: MessageCircle,
       href: "/companion",
       label: "Companion",
-      pro: false,
+      pro: true,
     },
     {
       icon: Plus,
-      href: "/news/new",
-      label: "Plus",
-      pro: false,
+      href: "/manage-post",
+      label: "Manage Posts",
+      pro: true,
     },
     {
       icon: Settings,
@@ -33,8 +39,13 @@ const Sidebar = () => {
     },
   ];
   const onNavigate = (url: string, pro: boolean) => {
+    if (pro && !isPro) {
+      return setProModalIsOpen(true);
+    }
+
     return router.push(url);
   };
+
   return (
     <div className="space-y-4 flex flex-col h-full text-primary bg-secondary">
       <div className="p-3 flex flex-1 justify-center">
@@ -48,7 +59,7 @@ const Sidebar = () => {
                 pathname === route.href && "bg-primary/10 text-primary"
               )}
             >
-              <div className="flex flex-col gap-y-2 items-center flex-1">
+              <div className="flex flex-col gap-y-2 items-center flex-1 justify-center text-center">
                 <route.icon className="h-5 w-5" />
                 {route.label}
               </div>
